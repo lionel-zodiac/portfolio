@@ -9,28 +9,6 @@ async function fetchGithub() {
 
     // Check for rate limiting
     if (res.status === 403) {
-      // Try to use cached data even if expired
-      if (cachedData) {
-        console.log("⚠️ Rate limit hit, using expired cache");
-        const { user, repos } = JSON.parse(cachedData);
-        displayGitHubData(user, repos);
-
-        // Show notification about using cached data
-        const notification = document.createElement("div");
-        notification.style.cssText = `
-          position: fixed; top: 80px; right: 20px; 
-          background: linear-gradient(135deg, rgba(255, 110, 58, 0.9), rgba(255, 140, 0, 0.9));
-          color: white; padding: 1rem 1.5rem; border-radius: 8px;
-          box-shadow: 0 4px 20px rgba(255, 110, 58, 0.4);
-          z-index: 1000; animation: slideIn 0.3s ease;
-        `;
-        notification.innerHTML =
-          '<i class="fas fa-info-circle"></i> Using cached data - API rate limited';
-        document.body.appendChild(notification);
-        setTimeout(() => notification.remove(), 5000);
-        return;
-      }
-
       const rateLimitRes = await fetch("https://api.github.com/rate_limit");
       const rateLimit = await rateLimitRes.json();
       const resetTime = new Date(rateLimit.rate.reset * 1000);
