@@ -40,7 +40,7 @@ async function fetchGithub() {
       resumeEl.rel = "noopener noreferrer";
     }
 
-    // Fetch user's own repositories
+    // Fetch user's own repositories that have stars (repositories they've starred themselves)
     const reposRes = await fetch(
       `https://api.github.com/users/${username}/repos?sort=updated&per_page=100`
     );
@@ -51,9 +51,11 @@ async function fetchGithub() {
 
     const repos = await reposRes.json();
 
-    // Filter out forks, exclude portfolio repo, and sort by stars
+    // Filter: only show repos with at least 1 star, not forks, exclude portfolio repo
     const top6 = repos
-      .filter((r) => !r.fork && r.name !== excludeRepo)
+      .filter(
+        (r) => !r.fork && r.name !== excludeRepo && r.stargazers_count > 0
+      )
       .sort((a, b) => b.stargazers_count - a.stargazers_count)
       .slice(0, 6);
 
@@ -254,41 +256,7 @@ themeToggle.addEventListener("click", () => {
   }
 });
 
-// ===== CUSTOM CURSOR =====
-const cursor = document.querySelector(".custom-cursor");
-const cursorDot = document.querySelector(".custom-cursor-dot");
-
-let mouseX = 0;
-let mouseY = 0;
-let cursorX = 0;
-let cursorY = 0;
-let dotX = 0;
-let dotY = 0;
-
-document.addEventListener("mousemove", (e) => {
-  mouseX = e.clientX;
-  mouseY = e.clientY;
-});
-
-// Smooth cursor follow animation
-function animateCursor() {
-  // Smooth follow for main cursor
-  cursorX += (mouseX - cursorX) * 0.15;
-  cursorY += (mouseY - cursorY) * 0.15;
-
-  // Faster follow for dot
-  dotX += (mouseX - dotX) * 0.4;
-  dotY += (mouseY - dotY) * 0.4;
-
-  cursor.style.left = cursorX + "px";
-  cursor.style.top = cursorY + "px";
-  cursorDot.style.left = dotX + "px";
-  cursorDot.style.top = dotY + "px";
-
-  requestAnimationFrame(animateCursor);
-}
-
-animateCursor();
+// Custom cursor removed - using standard cursor for better performance
 
 // Hide cursor when leaving window
 document.addEventListener("mouseleave", () => {

@@ -35,67 +35,7 @@ body {
   color: var(--text-primary);
   padding-top: 60px;
   transition: background 0.3s ease, color 0.3s ease;
-  cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="%2300ffff" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3" fill="%2300ffff"/></svg>')
-      12 12,
-    auto;
-}
-
-/* Custom Cursor */
-.custom-cursor {
-  width: 48px;
-  height: 48px;
-  border: 2px solid var(--accent-secondary);
-  border-radius: 50%;
-  position: fixed;
-  pointer-events: none;
-  z-index: 9999;
-  transition: all 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  transform: translate(-50%, -50%);
-  opacity: 0;
-  background: radial-gradient(
-    circle,
-    rgba(0, 255, 255, 0.1) 0%,
-    transparent 70%
-  );
-  box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
-}
-
-.custom-cursor-dot {
-  width: 6px;
-  height: 6px;
-  background: var(--accent-secondary);
-  border-radius: 50%;
-  position: fixed;
-  pointer-events: none;
-  z-index: 10000;
-  transition: all 0.1s ease;
-  transform: translate(-50%, -50%);
-  box-shadow: 0 0 10px var(--accent-secondary), 0 0 20px var(--accent-secondary);
-}
-
-body:hover .custom-cursor {
-  opacity: 1;
-}
-
-a:hover ~ .custom-cursor,
-button:hover ~ .custom-cursor,
-.project-card:hover ~ .custom-cursor {
-  transform: translate(-50%, -50%) scale(1.8);
-  background: radial-gradient(
-    circle,
-    rgba(255, 110, 58, 0.2) 0%,
-    transparent 70%
-  );
-  border-color: var(--accent-primary);
-  box-shadow: 0 0 30px rgba(255, 110, 58, 0.5);
-}
-
-a:hover ~ .custom-cursor-dot,
-button:hover ~ .custom-cursor-dot,
-.project-card:hover ~ .custom-cursor-dot {
-  transform: translate(-50%, -50%) scale(2);
-  background: var(--accent-primary);
-  box-shadow: 0 0 15px var(--accent-primary), 0 0 30px var(--accent-primary);
+  cursor: default;
 }
 
 /* Animated Background Canvas */
@@ -406,11 +346,11 @@ button:hover ~ .custom-cursor-dot,
 @keyframes fadeInUp {
   from {
     opacity: 0;
-    transform: translateY(30px) scale(0.95);
+    transform: translateY(50px) rotateX(20deg);
   }
   to {
     opacity: 1;
-    transform: translateY(0) scale(1);
+    transform: translateY(0) rotateX(0deg);
   }
 }
 
@@ -437,10 +377,10 @@ button:hover ~ .custom-cursor-dot,
 @keyframes float {
   0%,
   100% {
-    transform: translateY(0) scale(1);
+    transform: translateY(-12px) scale(1.03) rotate(0deg);
   }
   50% {
-    transform: translateY(-10px) scale(1.02);
+    transform: translateY(-18px) scale(1.04) rotate(1deg);
   }
 }
 
@@ -526,9 +466,9 @@ button:hover ~ .custom-cursor-dot,
 
 .project-card:hover {
   transform: translateY(-12px) scale(1.03);
-  box-shadow: 0 12px 40px var(--card-shadow), 0 0 20px rgba(255, 110, 58, 0.2);
-  border-color: rgba(255, 110, 58, 0.3);
-  animation: float 3s ease-in-out infinite;
+  box-shadow: 0 20px 60px var(--card-shadow), 0 0 30px rgba(255, 110, 58, 0.3);
+  border-color: rgba(255, 110, 58, 0.4);
+  animation: float 2s ease-in-out infinite;
 }
 
 .project-card.expanded {
@@ -1100,10 +1040,10 @@ a {
   flex-wrap: wrap;
   gap: 1rem;
   margin: 2rem 0;
-  margin-left: 115.2px;
+  justify-content: center;
 }
 .tech-stack {
-  margin-left: 115.2px;
+  text-align: center;
 }
 .tools-title {
   text-align: center;
@@ -1265,8 +1205,6 @@ a {
 .animate-slidein {
   animation: fadeInUp 1.2s both;
 }
-
-
 
 /* Parallax Effect */
 [data-parallax] {
