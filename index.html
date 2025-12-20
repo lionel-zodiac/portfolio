@@ -13,28 +13,60 @@
   <body>
   <nav class="navbar">
     <div class="nav-container">
-      <a href="#hero" class="nav-logo">Lionel</a>
-      <ul class="nav-links">
-        <li><a href="#about">About</a></li>
-        <li><a href="#projects">Projects</a></li>
+      <a href="#hero" class="nav-logo">
+        <span class="logo-bracket">&lt;</span>
+        Lionel
+        <span class="logo-bracket">/&gt;</span>
+      </a>
+      
+      <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+      </button>
+      
+      <ul class="nav-links" id="nav-links">
+        <li><a href="#hero" class="nav-link active">Home</a></li>
+        <li><a href="#about" class="nav-link">About</a></li>
+        <li><a href="#projects" class="nav-link">Projects</a></li>
+        <li><a href="#contact" class="nav-link">Contact</a></li>
         <li>
           <a
             id="nav-resume"
+            class="nav-link resume-link"
             href="https://drive.google.com/file/d/1J6PX9RK6P_kymoVIed2hG1uR5tuXAMYB/view?usp=sharing"
             target="_blank"
             rel="noopener noreferrer"
           >
-            Resume
+            <i class="fas fa-file-alt"></i> Resume
           </a>
+        </li>
+        <li>
+          <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+            <i class="fas fa-moon"></i>
+          </button>
         </li>
       </ul>
     </div>
   </nav>
+  
+  <!-- Animated Background -->
+  <canvas id="particle-canvas"></canvas>
+  
+  <!-- Custom Cursor -->
+  <div class="custom-cursor"></div>
+  <div class="custom-cursor-dot"></div>
+  
+  <!-- Scroll to Top Button -->
+  <button id="scroll-top" class="scroll-top" aria-label="Scroll to top">
+    <i class="fas fa-arrow-up"></i>
+  </button>
+  
     <!-- Hero -->
     <section class="hero" id="hero">
       <div class="hero-left">
-        <h2 class="hero-title">Hello, I’m <span id="name">Lionel</span></h2>
-        <h1 id="title">Software Developer</h1>
+        <h2 class="hero-title">Hello, I'm <span id="name" class="gradient-text">Lionel</span></h2>
+        <h1 id="title" class="typing-text">Software Developer</h1>
         <div class="cta">
             <a href="#projects" class="btn primary project">My Projects</a>
             <a id="resumeBtn"
@@ -58,7 +90,7 @@
     </section>
 
     <!-- About -->
-    <section class="about" id="about">
+    <section class="about" id="about" data-parallax>
       <div class="about-icons">
         <div>
           <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" alt="Web" />
@@ -74,7 +106,7 @@
         </div>
       </div>
       <div class="about-text">
-        <h2>About me</h2>
+        <h2 class="gradient-text">About me</h2>
         <p id="bio">
           Hi! I'm Lionel, a passionate software developer with a strong foundation in both frontend and backend technologies. I love building modern web applications that are fast, responsive, and user-friendly. My journey started with curiosity for how things work on the web, and it quickly grew into a full-time passion for coding and problem-solving.<br><br>
           I enjoy working with JavaScript, React, Node.js, and MongoDB, but I'm always eager to learn new tools and frameworks. Whether it's designing a beautiful UI or architecting a robust backend, I strive to deliver clean, maintainable, and scalable code.<br><br>
@@ -121,7 +153,7 @@
 
     <!-- Projects -->
     <section class="projects" id="projects">
-      <h2>Projects</h2>
+      <h2 class="gradient-text">Projects</h2>
       <div class="projects-grid" id="projects-list">
        
         </div>
@@ -140,7 +172,7 @@
 
     <!-- Contact Section -->
 <section class="contact" id="contact">
-  <h2 class="contact-title">Contact</h2>
+  <h2 class="contact-title gradient-text">Contact</h2>
   <div class="contact-container">
     <p>I'm always open to new opportunities, collaborations, or just a friendly chat! Reach out to me through any of the platforms below:</p>
     <form class="contact-form" action="mailto:your.email@example.com" method="POST" enctype="text/plain">
