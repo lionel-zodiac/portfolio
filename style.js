@@ -1,7 +1,7 @@
 let username = "codewith-lionel";
 const excludeRepo = "codewith-lionel";
 const RESUME_URL =
-  "https://drive.google.com/file/d/1J6PX9RK6P_kymoVIed2hG1uR5tuXAMYB/view?usp=sharing";
+  "https://drive.google.com/file/d/1Va_i1z7ouKGIRkyfxVLRGDeMUJJ4xnyA/view?usp=sharing";
 
 async function fetchGithub() {
   try {
@@ -235,49 +235,28 @@ fetchGithub();
 const themeToggle = document.getElementById("theme-toggle");
 const htmlElement = document.documentElement;
 const themeIcon = themeToggle.querySelector("i");
+const themes = ["dark", "light", "sunset"];
 
-// Check for saved theme preference or default to 'dark'
-const currentTheme = localStorage.getItem("theme") || "dark";
-if (currentTheme === "light") {
-  htmlElement.setAttribute("data-theme", "light");
-  themeIcon.classList.replace("fa-moon", "fa-sun");
+function applyTheme(theme) {
+  if (theme === "dark") {
+    htmlElement.removeAttribute("data-theme");
+  } else {
+    htmlElement.setAttribute("data-theme", theme);
+  }
+
+  themeIcon.className =
+    theme === "sunset" ? "fas fa-palette" : theme === "light" ? "fas fa-sun" : "fas fa-moon";
+  themeToggle.setAttribute("aria-label", `Switch from ${theme} theme`);
 }
 
+const currentTheme = localStorage.getItem("theme") || "dark";
+applyTheme(themes.includes(currentTheme) ? currentTheme : "dark");
+
 themeToggle.addEventListener("click", () => {
-  const theme = htmlElement.getAttribute("data-theme");
-  if (theme === "light") {
-    htmlElement.removeAttribute("data-theme");
-    themeIcon.classList.replace("fa-sun", "fa-moon");
-    localStorage.setItem("theme", "dark");
-  } else {
-    htmlElement.setAttribute("data-theme", "light");
-    themeIcon.classList.replace("fa-moon", "fa-sun");
-    localStorage.setItem("theme", "light");
-  }
-});
-
-// Custom cursor removed - using standard cursor for better performance
-
-// Hide cursor when leaving window
-document.addEventListener("mouseleave", () => {
-  cursor.style.opacity = "0";
-  cursorDot.style.opacity = "0";
-});
-
-document.addEventListener("mouseenter", () => {
-  cursor.style.opacity = "1";
-  cursorDot.style.opacity = "1";
-});
-
-// Add click effect
-document.addEventListener("mousedown", () => {
-  cursor.style.transform = "translate(-50%, -50%) scale(0.8)";
-  cursorDot.style.transform = "translate(-50%, -50%) scale(1.5)";
-});
-
-document.addEventListener("mouseup", () => {
-  cursor.style.transform = "translate(-50%, -50%) scale(1)";
-  cursorDot.style.transform = "translate(-50%, -50%) scale(1)";
+  const activeTheme = htmlElement.getAttribute("data-theme") || "dark";
+  const nextTheme = themes[(themes.indexOf(activeTheme) + 1) % themes.length];
+  applyTheme(nextTheme);
+  localStorage.setItem("theme", nextTheme);
 });
 
 // ===== ANIMATED PARTICLE BACKGROUND =====
@@ -375,29 +354,33 @@ scrollTopBtn.addEventListener("click", () => {
   });
 });
 
-// ===== PARALLAX EFFECT =====
-window.addEventListener("scroll", () => {
-  const parallaxElements = document.querySelectorAll("[data-parallax]");
-  parallaxElements.forEach((el) => {
-    const speed = 0.5;
-    const yPos = -(window.pageYOffset * speed);
-    el.style.transform = `translateY(${yPos}px)`;
-  });
-});
+// ===== ZOOM SCROLL DEPTH =====
+const depthSections = document.querySelectorAll("section");
+const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-// ===== SECTION REVEAL ANIMATION =====
+function updateDepth() {
+  if (prefersReducedMotion) return;
 
-document.querySelectorAll("section").forEach((section) => {
-  const reveal = () => {
+  const viewportCenter = window.innerHeight / 2;
+  depthSections.forEach((section) => {
     const rect = section.getBoundingClientRect();
-    if (rect.top < window.innerHeight - 100) {
-      section.classList.add("visible");
-      window.removeEventListener("scroll", reveal);
-    }
-  };
-  window.addEventListener("scroll", reveal);
-  reveal();
-});
+    const distance = (rect.top + rect.height / 2 - viewportCenter) / window.innerHeight;
+    const clampedDistance = Math.max(-1, Math.min(1, distance));
+    const scale = 1 - Math.abs(clampedDistance) * 0.08;
+    const tilt = clampedDistance * -2.5;
+    section.style.setProperty("--scroll-scale", scale.toFixed(3));
+    section.style.setProperty("--scroll-tilt", `${tilt.toFixed(2)}deg`);
+  });
+}
+
+const revealObserver = new IntersectionObserver(
+  (entries) => entries.forEach((entry) => entry.target.classList.toggle("visible", entry.isIntersecting)),
+  { threshold: 0.12 }
+);
+depthSections.forEach((section) => revealObserver.observe(section));
+updateDepth();
+window.addEventListener("scroll", updateDepth, { passive: true });
+window.addEventListener("resize", updateDepth);
 
 // ===== NAVBAR FUNCTIONALITY =====
 const hamburger = document.getElementById("hamburger");
