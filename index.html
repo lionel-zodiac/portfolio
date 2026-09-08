@@ -2,202 +2,45 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
-    <title>Lionel Portfolio</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Lionel's selected software projects and digital experiments." />
+    <title>Lionel / Software Developer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="style.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
-
-
   </head>
   <body>
-  <nav class="navbar">
-    <div class="nav-container">
-      <a href="#hero" class="nav-logo">
-        <span class="logo-bracket">&lt;</span>
-        Lionel
-        <span class="logo-bracket">/&gt;</span>
-      </a>
-      
-      <button class="hamburger" id="hamburger" aria-label="Toggle menu">
-        <span class="hamburger-line"></span>
-        <span class="hamburger-line"></span>
-        <span class="hamburger-line"></span>
-      </button>
-      
-      <ul class="nav-links" id="nav-links">
-        <li><a href="#hero" class="nav-link active">Home</a></li>
-        <li><a href="#about" class="nav-link">About</a></li>
-        <li><a href="#projects" class="nav-link">Projects</a></li>
-        <li><a href="#contact" class="nav-link">Contact</a></li>
-        <li>
-          <a
-            id="nav-resume"
-            class="nav-link resume-link"
-            href="https://drive.google.com/file/d/1Va_i1z7ouKGIRkyfxVLRGDeMUJJ4xnyA/view?usp=sharing"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <i class="fas fa-file-alt"></i> Resume
-          </a>
-        </li>
-        <li>
-          <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
-            <i class="fas fa-moon"></i>
-          </button>
-        </li>
-      </ul>
-    </div>
-  </nav>
-  
-  <!-- Animated Background -->
-  <canvas id="particle-canvas"></canvas>
-  
-  <!-- Scroll to Top Button -->
-  <button id="scroll-top" class="scroll-top" aria-label="Scroll to top">
-    <i class="fas fa-arrow-up"></i>
-  </button>
-  
-    <!-- Hero -->
-    <section class="hero" id="hero">
-      <div class="hero-left">
-        <h2 class="hero-title">Hello, I'm <span id="name" class="gradient-text">Lionel</span></h2>
-        <h1 id="title" class="typing-text">Software Developer</h1>
-        <div class="cta">
-            <a href="#projects" class="btn primary project">My Projects</a>
-            <a id="resumeBtn"
-               href="https://drive.google.com/file/d/1Va_i1z7ouKGIRkyfxVLRGDeMUJJ4xnyA/view?usp=sharing"
-               target="_blank"
-               rel="noopener noreferrer"
-               class="btn outline">Resume</a>
-          </div>
-        <div class="skills-bar" id="skills"></div>
-      </div>
-      <div class="hero-right">
-        <div class="avatar-container">
-          <div class="orbit orbit-one"></div>
-          <div class="orbit orbit-two"></div>
-          <span class="depth-label depth-label-top">01 / PROFILE</span>
-          <img
-            id="avatar"
-            src="./image/my image.jpg"
-            alt="Lionel Zodiac"
-          />
-          <div class="glow-ring"></div>
-          <span class="depth-label depth-label-bottom">SOFTWARE / DEV</span>
+    <div class="noise" aria-hidden="true"></div>
+    <header class="site-header">
+      <a class="wordmark" href="#top" aria-label="Back to top"><span>LI</span>ONEL<span class="wordmark-dot">.</span></a>
+      <nav class="main-nav" aria-label="Main navigation">
+        <a href="#about">01 / About</a><a href="#work">02 / Work</a><a href="#contact">03 / Contact</a>
+      </nav>
+      <a class="header-link" href="https://github.com/codewith-lionel" target="_blank" rel="noreferrer">GitHub <span aria-hidden="true">↗</span></a>
+    </header>
+    <main id="top">
+      <section class="hero zoom-section" aria-labelledby="hero-title">
+        <div class="hero-kicker"><span class="status-dot"></span> Available for interesting problems <span class="hero-year">2026</span></div>
+        <div class="hero-grid">
+          <div class="hero-copy"><p class="eyebrow">Software developer / builder</p><h1 id="hero-title">Ideas into<br /><em>interfaces.</em></h1><p class="hero-intro">I build thoughtful digital products where clean engineering meets a little bit of wonder.</p><a class="arrow-link" href="#work">Explore selected work <span>↓</span></a></div>
+          <div class="hero-portrait-wrap"><div class="portrait-backdrop" aria-hidden="true"></div><div class="portrait-frame"><img id="avatar" src="./image/my image.jpg" alt="Portrait of Lionel" /><span class="portrait-index">001 / 003</span></div><p class="portrait-note">Curious by default.<br />Precise by practice.</p></div>
         </div>
-      </div>
-    </section>
-
-    <!-- About -->
-    <section class="about" id="about" data-parallax>
-      <div class="about-icons">
-        <div>
-          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" alt="Web" />
-          <p>Frontend</p>
-        </div>
-        <div>
-          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg" alt="App" />
-          <p>Backend</p>
-        </div>
-        <div>
-          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg" alt="Hosting" />
-          <p>Database</p>
-        </div>
-      </div>
-      <div class="about-text">
-        <h2 class="gradient-text">About me</h2>
-        <p id="bio">
-          Hi! I'm Lionel, a passionate software developer with a strong foundation in both frontend and backend technologies. I love building modern web applications that are fast, responsive, and user-friendly. My journey started with curiosity for how things work on the web, and it quickly grew into a full-time passion for coding and problem-solving.<br><br>
-          I enjoy working with JavaScript, React, Node.js, and MongoDB, but I'm always eager to learn new tools and frameworks. Whether it's designing a beautiful UI or architecting a robust backend, I strive to deliver clean, maintainable, and scalable code.<br><br>
-          When I'm not coding, you’ll find me exploring new tech trends, contributing to open-source projects, or sharing knowledge with the developer community. Let's connect and build something amazing together!
-        </p>
-        <div class="stats">
-          <div>
-            <h3 id="projects-count">0</h3>
-            <p>Completed Projects</p>
-          </div>
-          <div>
-          </div>
-        </div>
-      </div>
-    </section>
-    <!-- tech stack  -->
-     <h2 class="techstack">TECH STACK</h2>
-    <div align="center" class="tech-stack">
-      <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" height="30" />
-      <img width="12" />
-      <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" height="30" />
-      <img width="12" />
-      <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg" height="30" />
-      <img width="12" />
-      <img src="./image/rapidbrains-expressjs.webp" height="30" />
-      <img width="12" />
-      <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg" height="30" />
-      <img width="12" />
-      <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg" height="30" />
-      <img width="12" />
-      <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" height="30" />
-      <img width="12" />
-      <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" height="30" />
-      <img width="12" />
-      <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-original.svg" height="30" />
-      <img width="12" />
-      <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/bootstrap/bootstrap-original.svg" height="30" />
-      <img width="12" />
-     
-      <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" height="30" />
-      <img width="12" />
-     
-    </div>
-
-    <!-- Tools Section -->
-    
-<h2 class="tools-title">TOOLS</h2>
-    
-
-<div align="center" class="tools-stack" style="margin-bottom: 2rem;">
-  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vscode/vscode-original.svg" height="36" alt="VS Code" style="margin:0 10px;" />
-  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" height="36" alt="GitHub" style="margin:0 10px;" />
-  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg" height="36" alt="Git" style="margin:0 10px;" />
-   <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/postman.svg" height="30" style="background:#fff;border-radius:6px;padding:4px;" alt="Postman" />
-      <img width="12" />
-</div>
-    <!-- Projects -->
-    <section class="projects" id="projects">
-      <h2 class="gradient-text">Projects</h2>
-      <div class="projects-grid" id="projects-list">
-       
-        </div>
-      </div>
-    </section>
-
-
-    <!-- Contact Section -->
-<section class="contact" id="contact">
-  <h2 class="contact-title gradient-text">Contact</h2>
-  <div class="contact-container">
-    <p>I'm always open to new opportunities, collaborations, or just a friendly chat! Reach out to me through any of the platforms below:</p>
-    <form class="contact-form" action="mailto:your.email@example.com" method="POST" enctype="text/plain">
-      <input type="text" name="name" placeholder="Your Name" required />
-      <input type="email" name="email" placeholder="Your Email" required />
-      <textarea name="message" rows="4" placeholder="Your Message" required></textarea>
-      <button type="submit" class="btn primary">Send Message</button>
-    </form>
-    <div class="contact-links">
-      <a href="mailto:your.email@example.com" class="contact-link" target="_blank">
-        <i class="fas fa-envelope"></i> Email
-      </a>
-      <a href="https://github.com/codewith-lionel" class="contact-link" target="_blank">
-        <i class="fab fa-github"></i> GitHub
-      </a>
-      <a href="https://www.linkedin.com/in/your-linkedin-username/" class="contact-link" target="_blank">
-        <i class="fab fa-linkedin"></i> LinkedIn
-      </a>
-    </div>
-  </div>
-</section>
-
+        <div class="hero-footer"><span>Scroll to descend</span><span class="scroll-line"></span><span>12.9716° N / 77.5946° E</span></div>
+      </section>
+      <section class="about zoom-section" id="about" aria-labelledby="about-title">
+        <div class="section-marker">01 <span></span> Profile</div>
+        <div class="about-grid"><h2 id="about-title">A developer with<br /><span>range.</span></h2><div class="about-copy"><p id="bio">I am Lionel, a software developer who cares about the feeling of using a product as much as the systems underneath it. I move between frontend craft, backend logic, and the messy, rewarding space in between.</p><p class="about-small">Currently exploring better ways to make the web feel more human. Always learning. Usually making.</p><div class="stat-row"><div><strong id="repo-count">--</strong><span>public projects</span></div><div><strong id="follower-count">--</strong><span>people watching</span></div><div><strong>∞</strong><span>things to learn</span></div></div></div></div>
+        <div class="marquee" aria-label="Skills"><div class="marquee-track" id="skills"><span>JavaScript</span><b>✳</b><span>React</span><b>✳</b><span>Node.js</span><b>✳</b><span>MongoDB</span><b>✳</b><span>Creative code</span><b>✳</b></div></div>
+      </section>
+      <section class="work zoom-section" id="work" aria-labelledby="work-title">
+        <div class="section-marker">02 <span></span> Selected work</div><div class="work-heading"><h2 id="work-title">Things I've<br /><em>made.</em></h2><p>Open-source projects, experiments, and useful little tools pulled live from GitHub.</p></div><div class="project-list" id="projects-list"><div class="loading-card"><span class="loader"></span> Loading the latest work...</div></div><a class="all-work" href="https://github.com/codewith-lionel?tab=repositories" target="_blank" rel="noreferrer">View all repositories <span>↗</span></a>
+      </section>
+      <section class="contact zoom-section" id="contact" aria-labelledby="contact-title">
+        <div class="section-marker">03 <span></span> Say hello</div><div class="contact-content"><p class="eyebrow">Have a good idea?</p><h2 id="contact-title">Let's make it<br /><em>real.</em></h2><a class="contact-email" href="mailto:your.email@example.com">your.email@example.com <span>↗</span></a></div><div class="contact-bottom"><span>Based in India / working everywhere</span><span>© <span id="current-year">2026</span> Lionel</span></div>
+      </section>
+    </main>
+    <button class="back-top" id="scroll-top" aria-label="Scroll back to top">↑</button>
     <script src="style.js"></script>
   </body>
 </html>
