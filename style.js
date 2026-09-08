@@ -65,6 +65,7 @@ async function fetchGithub() {
 
 const sections = document.querySelectorAll(".zoom-section");
 const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+let landedSection = null;
 function updateZoom() {
   if (reduceMotion) return;
   const center = window.innerHeight / 2;
@@ -73,19 +74,40 @@ function updateZoom() {
   document.getElementById("scroll-progress-bar").style.height = `${(progress * 100).toFixed(2)}%`;
   sections.forEach((section) => {
     const bounds = section.getBoundingClientRect();
-    const distance = Math.min(1, Math.abs((bounds.top + bounds.height / 2 - center) / (window.innerHeight * 1.2)));
-    const tilt = ((bounds.top + bounds.height / 2 - center) / window.innerHeight) * -2.4;
-    section.style.setProperty("--section-scale", (1 - distance * 0.055).toFixed(3));
-    section.style.setProperty("--section-opacity", (1 - distance * 0.18).toFixed(3));
-    section.style.setProperty("--section-tilt", `${tilt.toFixed(2)}deg`);
-    section.style.setProperty("--section-depth", `${(-distance * 18).toFixed(1)}px`);
+    const offset = (bounds.top + bounds.height / 2 - center) / window.innerHeight;
+    const distance = Math.min(1, Math.abs(offset) / 1.2);
+    const tilt = Math.max(-4.2, Math.min(4.2, offset * -4.2));
+    const incoming = Math.max(0, Math.min(1, offset / 1.15));
+    section.style.setProperty("--section-scale", (1 - distance * 0.04).toFixed(3));
+    section.style.setProperty("--section-opacity", (1 - distance * 0.16).toFixed(3));
+    section.style.setProperty("--section-lift", `${(-incoming * 76).toFixed(1)}px`);
+    section.style.setProperty("--section-tilt", `${(tilt + incoming * 11).toFixed(2)}deg`);
+    section.style.setProperty("--section-depth", `${(-distance * 42).toFixed(1)}px`);
+    section.style.setProperty("--transition-glow", incoming.toFixed(3));
+    section.style.setProperty("--transition-scale", (0.35 + incoming * 0.65).toFixed(3));
   });
+  let closestSection = null;
+  let closestDistance = Infinity;
+  sections.forEach((section) => {
+    const bounds = section.getBoundingClientRect();
+    const distance = Math.abs((bounds.top + bounds.height / 2 - center) / window.innerHeight);
+    if (distance < closestDistance) {
+      closestDistance = distance;
+      closestSection = section;
+    }
+  });
+  if (closestSection && closestDistance < 0.12 && closestSection !== landedSection) {
+    landedSection?.classList.remove("is-landing");
+    closestSection.classList.add("is-landing");
+    landedSection = closestSection;
+  }
 }
 window.addEventListener("scroll", updateZoom, { passive: true });
 window.addEventListener("resize", updateZoom);
 updateZoom();
 
 const portraitFrame = document.querySelector(".portrait-frame");
+const orbitScene = document.getElementById("orbit-scene");
 const projectList = document.getElementById("projects-list");
 function resetTilt(element) {
   element.style.setProperty("--card-x", "0deg");
@@ -111,6 +133,17 @@ if (!reduceMotion) {
   portraitFrame.addEventListener("pointerleave", () => {
     portraitFrame.style.setProperty("--portrait-x", "0deg");
     portraitFrame.style.setProperty("--portrait-y", "0deg");
+  });
+  orbitScene.addEventListener("pointermove", (event) => {
+    const bounds = orbitScene.getBoundingClientRect();
+    const x = (event.clientX - bounds.left) / bounds.width - 0.5;
+    const y = (event.clientY - bounds.top) / bounds.height - 0.5;
+    orbitScene.style.setProperty("--scene-x", `${(-y * 18).toFixed(2)}deg`);
+    orbitScene.style.setProperty("--scene-y", `${(x * 18).toFixed(2)}deg`);
+  });
+  orbitScene.addEventListener("pointerleave", () => {
+    orbitScene.style.setProperty("--scene-x", "0deg");
+    orbitScene.style.setProperty("--scene-y", "0deg");
   });
   projectList.addEventListener("pointermove", (event) => {
     const card = event.target.closest(".project-card");
