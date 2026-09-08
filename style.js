@@ -1,5 +1,20 @@
 const username = "codewith-lionel";
 const excludedRepo = username;
+const projectNames = {
+  portfolio: "Portfolio Studio",
+  AcademicX: "Academic X",
+  Cookify: "Cookify AI",
+  "TIME-TABLE-GENERATOR": "Timetable Generator",
+  AcademicPerformanceAnalyzer: "Performance Atlas",
+  RELEVA: "Releva Clinic"
+};
+
+function getProjectName(repositoryName) {
+  return projectNames[repositoryName] || repositoryName
+    .replace(/[-_]+/g, " ")
+    .replace(/([a-z])([A-Z])/g, "$1 $2")
+    .replace(/\b\w/g, (character) => character.toUpperCase());
+}
 
 const escapeHtml = (value = "") => String(value).replace(/[&<>'"]/g, (character) => ({
   "&": "&amp;", "<": "&lt;", ">": "&gt;", "'": "&#39;", '"': "&quot;"
@@ -31,7 +46,7 @@ async function fetchGithub() {
     projectList.innerHTML = repositories.map((repo, index) => `
       <article class="project-card">
         <span class="project-number">0${index + 1}</span>
-        <h3>${escapeHtml(repo.name.replace(/[-_]/g, " "))}</h3>
+        <h3>${escapeHtml(getProjectName(repo.name))}</h3>
         <p>${escapeHtml(repo.description || "A small experiment in making useful things for the web.")}</p>
         <div class="project-meta">
           ${repo.language ? `<span class="project-lang">${escapeHtml(repo.language)}</span>` : ""}
@@ -53,19 +68,73 @@ const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").match
 function updateZoom() {
   if (reduceMotion) return;
   const center = window.innerHeight / 2;
+  const scrollRange = document.documentElement.scrollHeight - window.innerHeight;
+  const progress = scrollRange > 0 ? window.scrollY / scrollRange : 0;
+  document.getElementById("scroll-progress-bar").style.height = `${(progress * 100).toFixed(2)}%`;
   sections.forEach((section) => {
     const bounds = section.getBoundingClientRect();
     const distance = Math.min(1, Math.abs((bounds.top + bounds.height / 2 - center) / (window.innerHeight * 1.2)));
+    const tilt = ((bounds.top + bounds.height / 2 - center) / window.innerHeight) * -2.4;
     section.style.setProperty("--section-scale", (1 - distance * 0.055).toFixed(3));
     section.style.setProperty("--section-opacity", (1 - distance * 0.18).toFixed(3));
+    section.style.setProperty("--section-tilt", `${tilt.toFixed(2)}deg`);
+    section.style.setProperty("--section-depth", `${(-distance * 18).toFixed(1)}px`);
   });
 }
 window.addEventListener("scroll", updateZoom, { passive: true });
 window.addEventListener("resize", updateZoom);
 updateZoom();
 
+const portraitFrame = document.querySelector(".portrait-frame");
+const projectList = document.getElementById("projects-list");
+function resetTilt(element) {
+  element.style.setProperty("--card-x", "0deg");
+  element.style.setProperty("--card-y", "0deg");
+  element.style.setProperty("--card-z", "0px");
+}
+function updateTilt(element, event, intensity = 8) {
+  const bounds = element.getBoundingClientRect();
+  const x = (event.clientX - bounds.left) / bounds.width - 0.5;
+  const y = (event.clientY - bounds.top) / bounds.height - 0.5;
+  element.style.setProperty("--card-x", `${(-y * intensity).toFixed(2)}deg`);
+  element.style.setProperty("--card-y", `${(x * intensity).toFixed(2)}deg`);
+  element.style.setProperty("--card-z", "12px");
+}
+if (!reduceMotion) {
+  portraitFrame.addEventListener("pointermove", (event) => {
+    const bounds = portraitFrame.getBoundingClientRect();
+    const x = (event.clientX - bounds.left) / bounds.width - 0.5;
+    const y = (event.clientY - bounds.top) / bounds.height - 0.5;
+    portraitFrame.style.setProperty("--portrait-x", `${(-y * 10).toFixed(2)}deg`);
+    portraitFrame.style.setProperty("--portrait-y", `${(x * 10).toFixed(2)}deg`);
+  });
+  portraitFrame.addEventListener("pointerleave", () => {
+    portraitFrame.style.setProperty("--portrait-x", "0deg");
+    portraitFrame.style.setProperty("--portrait-y", "0deg");
+  });
+  projectList.addEventListener("pointermove", (event) => {
+    const card = event.target.closest(".project-card");
+    if (card) updateTilt(card, event, 5);
+  });
+  projectList.addEventListener("pointerout", (event) => {
+    const card = event.target.closest(".project-card");
+    if (card && !card.contains(event.relatedTarget)) resetTilt(card);
+  });
+}
+
 const scrollTop = document.getElementById("scroll-top");
 window.addEventListener("scroll", () => scrollTop.classList.toggle("visible", window.scrollY > 500), { passive: true });
 scrollTop.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
+
+const footerLinks = [...document.querySelectorAll(".site-footer a[href^='#']")];
+const footerSections = [...document.querySelectorAll("main section[id]")];
+const footerSectionObserver = new IntersectionObserver((entries) => {
+  entries.forEach((entry) => {
+    if (!entry.isIntersecting) return;
+    footerLinks.forEach((link) => link.classList.toggle("is-current", link.getAttribute("href") === `#${entry.target.id}`));
+  });
+}, { threshold: 0.5 });
+footerSections.forEach((section) => footerSectionObserver.observe(section));
+
 document.getElementById("current-year").textContent = new Date().getFullYear();
 fetchGithub();
